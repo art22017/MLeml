@@ -46,6 +46,6 @@ They generate:
 
 - the discovered EML formula printed to stdout
 - a Matplotlib plot overlaying raw points and the snapped EML curve
+- stable PNG outputs under `tests/generated/`
 
 These examples are intended as smoke tests and demos, not as exact symbolic benchmarks.
-

@@ -204,6 +204,17 @@ python -m twine upload dist/*
 
 For a complete release checklist, see [docs/release.md](docs/release.md).
 
+## GitHub Actions publishing
+
+The repository also supports credential-free PyPI publishing through GitHub Actions Trusted Publishers.
+
+- normal CI runs on `main` and `release`
+- PyPI publishing runs only on pushes to the `release` branch
+- the publishing workflow file is `.github/workflows/publish.yml`
+- the recommended GitHub environment name is `pypi`
+
+See [docs/trusted-publisher.md](docs/trusted-publisher.md) for the exact PyPI pending publisher values.
+
 ## Reference
 
 The package is inspired by:

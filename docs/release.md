@@ -9,6 +9,8 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu
 pip install -e ".[dev]"
 ```
 
+If you are using GitHub Actions Trusted Publishers, configure PyPI first as described in [trusted-publisher.md](trusted-publisher.md).
+
 ## 2. Run validation
 
 Fast tests:
@@ -38,7 +40,24 @@ git commit -m "Initial MLeml release"
 git tag v0.1.0
 ```
 
-## 4. Push to GitHub
+## 4. Release branch publishing
+
+The repository is configured to publish to PyPI from the `release` branch.
+
+Typical branch flow:
+
+```bash
+git checkout main
+git pull
+# bump version in pyproject.toml
+git commit -am "Release v0.1.0"
+git checkout -B release
+git push -u origin release
+```
+
+Every publishable push to `release` must carry a new version number.
+
+## 5. Push to GitHub manually
 
 If the GitHub repository already exists:
 
@@ -56,7 +75,7 @@ git push -u origin main
 git push origin v0.1.0
 ```
 
-## 5. Upload to TestPyPI
+## 6. Upload to TestPyPI
 
 ```bash
 python -m twine upload --repository testpypi dist/*
@@ -68,13 +87,13 @@ Install test:
 pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple mleml
 ```
 
-## 6. Upload to PyPI
+## 7. Upload to PyPI
 
 ```bash
 python -m twine upload dist/*
 ```
 
-## 7. Post-release checks
+## 8. Post-release checks
 
 - verify the project page renders correctly
 - verify `pip install mleml`
