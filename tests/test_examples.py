@@ -47,20 +47,55 @@ def _plot_fit(path, x, y, x_line, y_line, title: str) -> None:
 
 
 @pytest.mark.slow
+def test_noisy_eml_recovery_example(capsys):
+    rng = np.random.default_rng(5)
+    x = np.linspace(0.8, 2.2, 90)
+    y_clean = np.exp(1.0) - np.log(np.exp(x) - np.log(1.0))
+    y = y_clean + rng.normal(scale=0.01, size=x.shape)
+    result = predict(x, y, max_depth=2)
+
+    print(f"eml_recovery_result={result}; mse={result.mse:.6f}")
+    captured = capsys.readouterr()
+    assert "eml_recovery_result=eml(" in captured.out
+
+    x_line = np.linspace(x.min(), x.max(), 300)
+    y_line = result(x_line)
+    plot_path = _GENERATED_DIR / "eml_recovery_fit.png"
+    _plot_fit(
+        plot_path,
+        x,
+        y,
+        x_line,
+        y_line,
+        f"Recoverable noisy EML target, mse={result.mse:.4f}",
+    )
+
+    assert plot_path.exists()
+    assert result.mse < 0.02
+
+
+@pytest.mark.slow
 def test_noisy_sine_example(capsys):
     rng = np.random.default_rng(7)
     x = np.linspace(0.7, 2.4, 90)
     y = np.sin(x) + rng.normal(scale=0.03, size=x.shape)
     result = predict(x, y, max_depth=3)
 
-    print(f"sine_result={result}")
+    print(f"sine_result={result}; mse={result.mse:.6f}")
     captured = capsys.readouterr()
     assert "sine_result=eml(" in captured.out
 
     x_line = np.linspace(x.min(), x.max(), 300)
     y_line = result(x_line)
     plot_path = _GENERATED_DIR / "noisy_sine_fit.png"
-    _plot_fit(plot_path, x, y, x_line, y_line, "Noisy sin(x) fit with MLeml")
+    _plot_fit(
+        plot_path,
+        x,
+        y,
+        x_line,
+        y_line,
+        f"Stress test: noisy sin(x), mse={result.mse:.4f}",
+    )
 
     assert plot_path.exists()
     assert np.isfinite(result.mse)
@@ -73,14 +108,21 @@ def test_noisy_x8_example(capsys):
     y = x**8 + rng.normal(scale=0.03, size=x.shape)
     result = predict(x, y, max_depth=3)
 
-    print(f"x8_result={result}")
+    print(f"x8_result={result}; mse={result.mse:.6f}")
     captured = capsys.readouterr()
     assert "x8_result=eml(" in captured.out
 
     x_line = np.linspace(x.min(), x.max(), 300)
     y_line = result(x_line)
     plot_path = _GENERATED_DIR / "noisy_x8_fit.png"
-    _plot_fit(plot_path, x, y, x_line, y_line, "Noisy x^8 fit with MLeml")
+    _plot_fit(
+        plot_path,
+        x,
+        y,
+        x_line,
+        y_line,
+        f"Stress test: noisy x^8, mse={result.mse:.4f}",
+    )
 
     assert plot_path.exists()
     assert np.isfinite(result.mse)

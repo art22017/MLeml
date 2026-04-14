@@ -33,6 +33,7 @@ print(result)
 
 The repository includes slow example tests for:
 
+- a noisy target that is actually representable by a shallow EML tree
 - noisy `sin(x)`
 - noisy `x**8`
 
@@ -47,5 +48,10 @@ They generate:
 - the discovered EML formula printed to stdout
 - a Matplotlib plot overlaying raw points and the snapped EML curve
 - stable PNG outputs under `tests/generated/`
+
+Interpretation:
+
+- the recoverable noisy EML target is the positive demo and should fit well
+- `sin(x)` and `x**8` are stress tests and are not expected to match closely with the current shallow grammar
 
 These examples are intended as smoke tests and demos, not as exact symbolic benchmarks.

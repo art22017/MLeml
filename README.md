@@ -151,6 +151,7 @@ The returned formula is always the best snapped candidate found. The function do
 - This is a shallow-tree symbolic regression package, not a full theorem prover.
 - Exact recovery is realistic mainly for shallow expressions that are naturally expressible as small EML trees.
 - For noisy data or functions such as `sin(x)` or `x**8`, the package will usually return a best-fit EML expression rather than an algebraically exact identity.
+- The repository examples include both a recoverable EML target and explicit stress tests, so visual output should be interpreted accordingly.
 - Internal complex arithmetic and repeated exponentials can cause difficult optimization landscapes for larger depths.
 - Runtime increases quickly with depth.
 
